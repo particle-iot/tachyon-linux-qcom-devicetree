@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# git branch -D upstream/rewritten-prev upstream/master upstream/rewritten filter-state      
+# git branch -D upstream/rewritten-prev upstream/master upstream/rewritten filter-state-split
 
 set -e
 
@@ -34,7 +34,7 @@ PATH=$(git --exec-path):$PATH $SCRIPTS/git-filter-branch --force \
 	--msg-filter 'cat && /bin/echo -e "\n[ upstream commit: $GIT_COMMIT ]"' \
 	--tag-name-filter 'while read t ; do /bin/echo -n $t-dts-raw ; done' \
 	--parent-filter 'sed "s/-p //g" | xargs -r git show-branch --independent | sed "s/\</-p /g"' \
-	--prune-empty --state-branch refs/heads/filter-state \
+	--prune-empty --state-branch refs/heads/filter-state-split \
 	-- $RANGE
 
 git branch -f $UPSTREAM_MASTER FETCH_HEAD
