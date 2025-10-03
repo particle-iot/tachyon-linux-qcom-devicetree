@@ -1,0 +1,91 @@
+&soc {
+	/* TLMM GPIO controller */
+	tlmm: pinctrl@f000000 {
+		compatible = "qcom,yupik-pinctrl";
+		reg = <0x0f000000 0x1000000>;
+		interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
+		wakeup-parent = <&pdc>;
+		gpio-ranges = <&tlmm 0 0 175>;
+
+		/* QUP I2C and SPI pin groups (active and sleep states) */
+		se0_i2c_pins: qupv3_se0_i2c_pins {
+			qupv3_se0_i2c_active: qupv3_se0_i2c_active {
+				mux {
+					pins = "gpio4", "gpio5";      /* SDA, SCL pins for QUP SE0 */
+					function = "qup01";          /* QUP1 instance, index 0 */
+					bias-disable;
+					drive-strength = <2>;
+				};
+			};
+			qupv3_se0_i2c_sleep: qupv3_se0_i2c_sleep {
+				mux {
+					pins = "gpio4", "gpio5";
+					function = "gpio";           /* GPIO mode when asleep */
+					bias-pull-up;
+					drive-strength = <2>;
+				};
+			};
+		};
+
+		se2_i2c_pins: qupv3_se2_i2c_pins {
+			qupv3_se2_i2c_active: qupv3_se2_i2c_active {
+				mux {
+					pins = "gpio12", "gpio13";    /* SDA, SCL pins for QUP SE2 */
+					function = "qup01";
+					bias-disable;
+					drive-strength = <2>;
+				};
+			};
+			qupv3_se2_i2c_sleep: qupv3_se2_i2c_sleep {
+				mux {
+					pins = "gpio12", "gpio13";
+					function = "gpio";
+					bias-pull-up;
+					drive-strength = <2>;
+				};
+			};
+		};
+
+		se10_i2c_pins: qupv3_se10_i2c_pins {
+			qupv3_se10_i2c_active: qupv3_se10_i2c_active {
+				mux {
+					pins = "gpio38", "gpio39";    /* SDA, SCL pins for QUP SE10 */
+					function = "qup00";          /* QUP0 instance, index 2 (SE10) */
+					bias-disable;
+					drive-strength = <2>;
+				};
+			};
+			qupv3_se10_i2c_sleep: qupv3_se10_i2c_sleep {
+				mux {
+					pins = "gpio38", "gpio39";
+					function = "gpio";
+					bias-pull-up;
+					drive-strength = <2>;
+				};
+			};
+		};
+
+		se14_spi_pins: qupv3_se14_spi_pins {
+			qupv3_se14_spi_active: qupv3_se14_spi_active {
+				mux {
+					pins = "gpio46", "gpio47", "gpio48", "gpio49";  /* MOSI, MISO, CS, CLK for QUP SE14 */
+					function = "qup00";    /* QUP0 instance, index 6 (SE14) */
+					drive-strength = <6>;
+					bias-disable;
+				};
+			};
+			qupv3_se14_spi_sleep: qupv3_se14_spi_sleep {
+				mux {
+					pins = "gpio46", "gpio47", "gpio48", "gpio49";
+					function = "gpio";
+					bias-disable;
+					drive-strength = <6>;
+				};
+			};
+		};
+	};
+};
